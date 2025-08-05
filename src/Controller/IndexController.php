@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class IndexController extends AbstractController
 {
-    #[Route('/', name: 'app_index')]
+    #[Route('/{reactRouting}', name: 'app_index', requirements: ['reactRouting' => '^(?!api|_profiler|_wdt).+'], defaults: ['reactRouting' => null])]
     public function index(): Response
     {
         return $this->render('index.html.twig', [
