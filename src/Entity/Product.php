@@ -14,7 +14,7 @@ class Product
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Ñname = null;
+    private ?string $name = null;
 
     #[ORM\Column(nullable: true)]
     private ?float $price = null;
@@ -24,14 +24,14 @@ class Product
         return $this->id;
     }
 
-    public function getÑname(): ?string
+    public function getname(): ?string
     {
-        return $this->Ñname;
+        return $this->name;
     }
 
-    public function setÑname(string $Ñname): static
+    public function setname(string $name): static
     {
-        $this->Ñname = $Ñname;
+        $this->name = $name;
 
         return $this;
     }

@@ -1,4 +1,6 @@
 const Encore = require('@symfony/webpack-encore');
+const path = require('path');
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 // Manually configure the runtime environment if not already configured yet by the "encore" command.
 if (!Encore.isRuntimeEnvironmentConfigured()) {
@@ -15,6 +17,10 @@ Encore
      * ENTRY CONFIG
      */
     .addEntry('app', './assets/main.tsx')
+
+    .addAliases({
+        '@': path.resolve(__dirname, 'assets'),
+    })
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
@@ -42,11 +48,13 @@ Encore
     .enableVersioning(Encore.isProduction())
 ;
 
-module.exports = Encore.getWebpackConfig();
+const config = Encore.getWebpackConfig();
 
-    // uncomment to get integrity="..." attributes on your script & link tags
-    // requires WebpackEncoreBundle 1.4 or higher
-    //.enableIntegrityHashes(Encore.isProduction())
+config.resolve.plugins = [
+    new TsconfigPathsPlugin({
+        configFile: path.resolve(__dirname, 'assets/tsconfig.json'),
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+    }),
+];
 
-    // uncomment if you're having problems with a jQuery plugin
-    //.autoProvidejQuery()
+module.exports = config;
