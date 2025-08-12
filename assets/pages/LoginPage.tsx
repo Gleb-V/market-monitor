@@ -1,42 +1,24 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '@/shared/context/AuthContext';
+import { LoginForm } from '@/components/LoginForm';
+import { login } from '@/api/auth';
 
 export function LoginPage() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
     const [error, setError] = useState<string | null>(null);
-    const navigate = useNavigate();
     const { setUser } = useAuthContext();
+    const navigate = useNavigate();
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
+    const handleLogin = async (email: string, password: string, rememberMe: boolean) => {
         setError(null);
-
-        const res = await fetch('/login', {
-            method: 'POST',
-            credentials: 'include',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password }),
-        });
-
-        const data = await res.json();
-
-        if (res.ok && data.user) {
-            setUser(data.user);
+        try {
+            const user = await login({ email, password, rememberMe });
+            setUser(user);
             navigate('/dashboard');
-        } else {
-            setError(data.message || 'Ошибка входа');
+        } catch (e) {
+            setError(e instanceof Error ? e.message : 'Ошибка входа');
         }
     };
 
-    return (
-        <form onSubmit={handleSubmit}>
-            <h2>Вход</h2>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            <input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} required />
-            <input type="password" placeholder="Пароль" value={password} onChange={e => setPassword(e.target.value)} required />
-            <button type="submit">Войти</button>
-        </form>
-    );
+    return <LoginForm onSubmit={handleLogin} error={error} />;
 }

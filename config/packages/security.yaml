@@ -1,6 +1,7 @@
 security:
     password_hashers:
         App\Entity\User:
+            #            TODO: описать алгоритм и объяснить его выбор (есть статьи на елайбрари)
             algorithm: argon2id
 
     providers:
@@ -25,8 +26,14 @@ security:
                 failure_handler: App\Security\LoginFailureHandler
             logout:
                 path: /logout
+#            TODO: описать механизм ремембер ми и объяснить его выбор
             remember_me:
                 secret: '%kernel.secret%'
+                lifetime: 604800
+                path: '/'
+                token_provider: { doctrine: true }
+                signature_properties: [ 'password' ]
+                remember_me_parameter: _remember_me
             stateless: false
 
     access_control:
