@@ -23,12 +23,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             .then((res) => res.json())
             .then((data) => {
                 setUser(data.user);
-                setTimeout(() => setIsLoading(false), 2000);
+                setIsLoading(false);
             })
             .catch(() => {
                 setUser(null);
-                setTimeout(() => setIsLoading(false), 2000);
-            });
+                setIsLoading(false);
+            })
     }, []);
 
     return (

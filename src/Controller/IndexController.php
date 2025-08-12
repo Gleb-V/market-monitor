@@ -4,15 +4,18 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
 
-final class IndexController extends AbstractController
+class IndexController extends AbstractController
 {
-    #[Route('/{reactRouting}', name: 'app_index', requirements: ['reactRouting' => '^(?!api|_profiler|_wdt).+'], defaults: ['reactRouting' => null])]
-    public function index(): Response
-    {
-        return $this->render('index.html.twig', [
-            'controller_name' => 'IndexController',
-        ]);
-    }
+  #[Route(
+    '/{reactRouting}',
+    name: 'app_react',
+    requirements: ['reactRouting' => '^(?!api|_profiler|_wdt).+'],
+    defaults: ['reactRouting' => null],
+    methods: ['GET']  // пусть будет только GET
+  )]
+  public function index(): Response {
+    return $this->render('index.html.twig');
+  }
 }

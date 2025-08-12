@@ -6,19 +6,23 @@ import { login } from '@/api/auth';
 
 export function LoginPage() {
     const [error, setError] = useState<string | null>(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const { setUser } = useAuthContext();
     const navigate = useNavigate();
 
     const handleLogin = async (email: string, password: string, rememberMe: boolean) => {
         setError(null);
+        setIsSubmitting(true);
         try {
             const user = await login({ email, password, rememberMe });
             setUser(user);
             navigate('/dashboard');
         } catch (e) {
             setError(e instanceof Error ? e.message : 'Ошибка входа');
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
-    return <LoginForm onSubmit={handleLogin} error={error} />;
+    return <LoginForm onSubmit={handleLogin} error={error} loading={isSubmitting} />;
 }

@@ -1,18 +1,20 @@
 import { useState } from 'react';
+import { LoadingSpinner } from '@/components/LoadingSpinner';
 
 type Props = {
     onSubmit: (email: string, password: string, rememberMe: boolean) => void;
     error?: string | null;
+    loading?: boolean;
 };
 
-export function LoginForm({ onSubmit, error }: Props) {
+export function LoginForm({ onSubmit, error, loading = false }: Props) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [rememberMe, setRememberMe] = useState(false);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        onSubmit(email, password, rememberMe);
+        if (!loading) onSubmit(email, password, rememberMe);
     };
 
     return (
@@ -29,6 +31,7 @@ export function LoginForm({ onSubmit, error }: Props) {
                     onChange={e => setEmail(e.target.value)}
                     autoComplete="username"
                     required
+                    disabled={loading}
                 />
             </div>
 
@@ -40,6 +43,7 @@ export function LoginForm({ onSubmit, error }: Props) {
                     onChange={e => setPassword(e.target.value)}
                     autoComplete="current-password"
                     required
+                    disabled={loading}
                 />
             </div>
 
@@ -48,12 +52,23 @@ export function LoginForm({ onSubmit, error }: Props) {
                     type="checkbox"
                     checked={rememberMe}
                     onChange={e => setRememberMe(e.target.checked)}
+                    disabled={loading}
                 />
                 <span>Запомнить меня</span>
             </label>
 
             <div>
-                <button type="submit">Войти</button>
+                <button type="submit" disabled={loading} style={{ minWidth: 120, minHeight: 36 }}>
+                    {loading ? (
+                        // компактный спинер в кнопке
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
+                            <LoadingSpinner />
+                            <span></span>
+                        </div>
+                    ) : (
+                        'Войти'
+                    )}
+                </button>
             </div>
         </form>
     );

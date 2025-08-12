@@ -19,7 +19,7 @@ security:
             lazy: true
             provider: app_user_provider
             json_login:
-                check_path: /login
+                check_path: /api/login
                 username_path: email
                 password_path: password
                 success_handler: App\Security\LoginSuccessHandler
@@ -37,7 +37,13 @@ security:
             stateless: false
 
     access_control:
-        - { path: ^/login, roles: PUBLIC_ACCESS }
-        - { path: ^/register, roles: PUBLIC_ACCESS }
-        - { path: ^/initialize, roles: PUBLIC_ACCESS }
-        - { path: ^/, roles: ROLE_USER }
+        # публичные эндпоинты аутентификации
+        - { path: ^/api/login,      roles: PUBLIC_ACCESS }
+        - { path: ^/api/register,   roles: PUBLIC_ACCESS }
+        - { path: ^/logout,         roles: PUBLIC_ACCESS }
+        - { path: ^/register,       roles: PUBLIC_ACCESS }
+        - { path: ^/initialize,     roles: PUBLIC_ACCESS }
+        # весь REST API защищаем (подставь свой префикс api)
+        - { path: ^/api,            roles: IS_AUTHENTICATED_FULLY }
+        # всё остальное (SPA-роуты) — публичный доступ, отдаём React
+        - { path: ^/,               roles: PUBLIC_ACCESS }

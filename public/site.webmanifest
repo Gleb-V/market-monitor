@@ -11,11 +11,6 @@
     {
       "src": "/android-chrome-512x512.png",
       "sizes": "512x512",
-      "type": "image/png"
-    }
-    {
-      "src": "/android-chrome-512x512.png",
-      "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
     }
@@ -25,5 +20,7 @@
   "display": "standalone",
   "start_url": "/",
   "scope": "/",
-  "orientation": "portrait"
+  "orientation": "portrait",
+  "lang": "ru-RU",
+  "dir": "ltr"
 }
