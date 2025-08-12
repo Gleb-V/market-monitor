@@ -12,7 +12,7 @@ export function AppRouter() {
     const { user, isLoading } = useAuthContext();
 
     if (isLoading) {
-        return <p>Загрузка...</p>;
+        return <p className="loading">Загрузка...</p>;
     }
 
     const isAuthenticated = Boolean(user);

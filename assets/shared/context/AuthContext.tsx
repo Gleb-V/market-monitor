@@ -23,11 +23,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             .then((res) => res.json())
             .then((data) => {
                 setUser(data.user);
-                setIsLoading(false);
+                setTimeout(() => setIsLoading(false), 2000);
             })
             .catch(() => {
                 setUser(null);
-                setIsLoading(false);
+                setTimeout(() => setIsLoading(false), 2000);
             });
     }, []);
 
