@@ -16,8 +16,6 @@ final class AuthController extends AbstractController
   #[Route(path: '/api/login', name: 'api_login', methods: ['POST'])]
   public function login(): never
   {
-    // Этот код выполняться не будет.
-    // Запрос перехватит firewall json_login.
     throw new \LogicException('This route is handled by the security system.');
   }
 

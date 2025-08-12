@@ -13,7 +13,7 @@ class IndexController extends AbstractController
     name: 'app_react',
     requirements: ['reactRouting' => '^(?!api|_profiler|_wdt).+'],
     defaults: ['reactRouting' => null],
-    methods: ['GET']  // пусть будет только GET
+    methods: ['GET']
   )]
   public function index(): Response {
     return $this->render('index.html.twig');

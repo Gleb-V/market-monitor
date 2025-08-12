@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '@/shared/context/AuthContext';
 import { register, login } from '@/api/auth';
+import { LoadingSpinner } from '@/components/LoadingSpinner';
 
 function wait(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -32,7 +33,7 @@ export function RegisterPage() {
 
             // 2) Небольшая пауза (если регистрация была мгновенной)
             const elapsed = Date.now() - start;
-            const minShow = 700; // «немного подождать»
+            const minShow = 2000; // «немного подождать»
             if (elapsed < minShow) await wait(minShow - elapsed);
 
             // 3) Авторизация теми же данными
@@ -89,8 +90,26 @@ export function RegisterPage() {
             </label>
 
             <div>
-                <button type="submit" disabled={loading} style={{ minWidth: 160, minHeight: 36 }}>
-                    {loading ? 'Создаём аккаунт…' : 'Зарегистрироваться'}
+                <button
+                    type="submit"
+                    disabled={loading}
+                    style={{ minWidth: 160, minHeight: 36 }}
+                >
+                    {loading ? (
+                        <div
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                gap: 8
+                            }}
+                        >
+                            <LoadingSpinner />
+                            <span></span>
+                        </div>
+                    ) : (
+                        'Зарегистрироваться'
+                    )}
                 </button>
             </div>
         </form>
